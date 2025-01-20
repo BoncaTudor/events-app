@@ -69,6 +69,7 @@ class EventListView(ListAPIView):
         .order_by("date")
     )
     serializer_class = EventSerializer
+    #TODO: make it work for FE
     # pagination_class = EventPagination
 
 
