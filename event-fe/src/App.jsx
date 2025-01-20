@@ -34,7 +34,6 @@ function Login(){
     
     try{
       const response = await axios.post("http://127.0.0.1:8000/api/events/login/", { email, password});
-      console.log(response)
       console.log(response.data.token.access)
       localStorage.setItem("access_token", response.data.token.access);
       localStorage.setItem("refresh_token", response.data.token.refresh);
@@ -203,7 +202,7 @@ function EventUpdate(){
     const token = localStorage.getItem("access_token");
 
     if (!token) {
-      console.log("Not logged in")
+      §e.log("Not logged in")
       return;
     }
 
