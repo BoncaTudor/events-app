@@ -20,8 +20,8 @@ Installation
 git clone <repo_link>
 cd <project_directory>
 2. Build and Run with Docker
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 This will set up the project and run the server. The API will be available at http://localhost:5173/.
 
 Authentication
