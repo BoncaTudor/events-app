@@ -202,7 +202,7 @@ function EventUpdate(){
     const token = localStorage.getItem("access_token");
 
     if (!token) {
-      §e.log("Not logged in")
+      console.log("Not logged in")
       return;
     }
 

@@ -25,6 +25,8 @@ class EventPagination(PageNumberPagination):
 
 
 class RegisterUserView(APIView):
+    serializer_class = UserSerializer
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -47,6 +49,8 @@ class RegisterUserView(APIView):
 
 
 class LoginUserView(APIView):
+    serializer_class = LoginSerializer
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():

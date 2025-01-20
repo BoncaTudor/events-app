@@ -4,3 +4,4 @@ pytest-django
 djangorestframework
 djangorestframework-simplejwt
 psycopg2-binary==2.9.10
+drf-spectacular
