@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./event-be/Dockerfile
+    container_name: event-be
+    volumes:
+      - ./event-be:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_DB_HOST=db
+    depends_on:
+      - db
+    entrypoint: ["sh", "/app/migrations.sh"]
+
+  frontend:
+    build:
+      context: ./event-fe
+    container_name: event-fe
+    volumes:
+      - ./event-fe:/app
+      - /app/node_modules
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:8000
+
+  db:
+    image: postgres:13
+    container_name: event-db
+    environment:
+      POSTGRES_DB: eventdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - event-db-data:/var/lib/postgresql/data
+
+volumes:
+  event-db-data:
+  node_modules: {}
