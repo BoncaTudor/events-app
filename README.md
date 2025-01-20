@@ -63,3 +63,6 @@ Swagger Documentation
 You can view the auto-generated API documentation at:
 
 http://localhost:8000/docs/
+
+The db migrations are run when the app is first started, but there are no fixtures for adding users yet.
+Use the registration feature to create users.
