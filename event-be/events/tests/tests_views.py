@@ -61,4 +61,4 @@ def test_list_event(client):
     response = client.get(url)
     Event.objects.all()
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["count"] == 2
+    assert len(response.data) == 2
