@@ -5,6 +5,13 @@ from rest_framework.test import APIClient
 
 
 @pytest.fixture
+def login_payload():
+    return {
+        "email": "testuser@gmail.com",
+        "password": "password",
+    }
+
+@pytest.fixture
 def payload():
     return {
         "title": "Update Event Title",

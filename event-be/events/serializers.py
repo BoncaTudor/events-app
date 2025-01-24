@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from events.models import Event
@@ -8,16 +10,22 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     email = serializers.EmailField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+
 
     class Meta:
         model = User
-        fields = ["id", "email", "password"]
+        fields = ["id", "first_name", "last_name", "email", "password"]
 
     def create(self, validated_data):
+        username = uuid.uuid4().hex
         return User.objects.create_user(
             email=validated_data["email"],
-            username=validated_data["email"].split("@")[0],
+            username=username,
             password=validated_data["password"],
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
         )
 
 
@@ -28,12 +36,12 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
-        username = email.split("@")[0]
-        user = authenticate(username=username, password=password)
+        username = User.objects.get(email=email)
+        user = authenticate(username=username.username, password=password)
         if not user:
             raise serializers.ValidationError("Invalid credentials")
         token_serializer = TokenObtainPairSerializer(
-            data={"username": username, "password": password}
+            data={"username": username.username, "password": password}
         )
         if token_serializer.is_valid():
             return email, token_serializer.validated_data

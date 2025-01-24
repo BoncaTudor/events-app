@@ -1,6 +1,5 @@
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
@@ -16,13 +15,6 @@ from .serializers import (
     LoginSerializer,
     UserSerializer,
 )
-
-
-class EventPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
-    max_page_size = 100
-
 
 class RegisterUserView(APIView):
     serializer_class = UserSerializer
@@ -73,8 +65,6 @@ class EventListView(ListAPIView):
         .order_by("date")
     )
     serializer_class = EventSerializer
-    # TODO: make it work for FE
-    # pagination_class = EventPagination
 
 
 class EventCreateView(CreateAPIView):
