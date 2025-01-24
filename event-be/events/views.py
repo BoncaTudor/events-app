@@ -101,7 +101,12 @@ class EventUpdateView(UpdateAPIView):
         serializer.save()
 
 
-class EventJoinView(APIView):
+class EventRegistrationView(APIView):
+    """
+    This view takes care of registering or unregistering an event.
+    POST request to register an event.
+    PATCH request to unregister an event.(partial update to participants list.)
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
@@ -111,8 +116,16 @@ class EventJoinView(APIView):
                 {"detail": "You are already a participant."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         event.participants.add(request.user)
         return Response(
             {"detail": "Successfully joined the event."}, status=status.HTTP_200_OK
         )
+
+    def patch(self, request, pk, *args, **kwargs):
+        event = get_object_or_404(Event, pk=pk)
+        try:
+            event.participants.remove(request.user)
+        except ValueError:
+            return Response("You are not a participant.", status=status.HTTP_400_BAD_REQUEST)
+        return Response("You left this event.", status=status.HTTP_200_OK)
+

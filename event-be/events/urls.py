@@ -6,7 +6,7 @@ from events.views import (
     EventCreateView,
     LoginUserView,
     EventUpdateView,
-    EventJoinView,
+    EventRegistrationView,
 )
 urlpatterns = [
     path("api/events/", EventListView.as_view(), name="event-list"),
@@ -14,5 +14,5 @@ urlpatterns = [
     path("api/events/register/", RegisterUserView.as_view(), name="register"),
     path("api/events/create/", EventCreateView.as_view(), name="event-create"),
     path("api/events/<int:pk>/update/", EventUpdateView.as_view(), name="event-update"),
-    path("api/events/<int:pk>/join/", EventJoinView.as_view(), name="event-join"),
+    path("api/events/<int:pk>/register/", EventRegistrationView.as_view(), name="event-register"),
 ]

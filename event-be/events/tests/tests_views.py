@@ -28,12 +28,31 @@ def test_create_event(authenticated_client, payload):
 
 
 @pytest.mark.django_db
-def test_join_event(authenticated_client, event, user):
-    url = reverse("event-join", kwargs={"pk": event.pk})
+def test_event_registration(authenticated_client, event, user):
+    assert event.participants.count() == 0
+
+    url = reverse("event-register", kwargs={"pk": event.pk})
     authenticated_client.post(url)
 
     event.refresh_from_db()
     assert event.participants.last() == user
+    assert event.participants.count() == 1
+
+
+
+@pytest.mark.django_db
+def test_event_unregister(authenticated_client, event, user):
+    url = reverse("event-register", kwargs={"pk": event.pk})
+
+    event.participants.add(user)
+    event.refresh_from_db()
+    assert event.participants.count() == 1
+    assert event.participants.last() == user
+
+    authenticated_client.patch(url)
+    event.refresh_from_db()
+    assert event.participants.count() == 0
+
 
 
 @pytest.mark.django_db

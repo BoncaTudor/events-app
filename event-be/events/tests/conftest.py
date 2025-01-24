@@ -19,7 +19,6 @@ def user():
         email="testuser@gmail.com", username="testuser", password="password"
     )
 
-
 @pytest.fixture(autouse=True)
 def event(user):
     return Event.objects.create(
