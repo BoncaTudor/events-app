@@ -39,7 +39,6 @@ def test_event_registration(authenticated_client, event, user):
     assert event.participants.count() == 1
 
 
-
 @pytest.mark.django_db
 def test_event_unregister(authenticated_client, event, user):
     url = reverse("event-register", kwargs={"pk": event.pk})
@@ -52,7 +51,6 @@ def test_event_unregister(authenticated_client, event, user):
     authenticated_client.patch(url)
     event.refresh_from_db()
     assert event.participants.count() == 0
-
 
 
 @pytest.mark.django_db

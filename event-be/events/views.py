@@ -73,7 +73,7 @@ class EventListView(ListAPIView):
         .order_by("date")
     )
     serializer_class = EventSerializer
-    #TODO: make it work for FE
+    # TODO: make it work for FE
     # pagination_class = EventPagination
 
 
@@ -107,6 +107,7 @@ class EventRegistrationView(APIView):
     POST request to register an event.
     PATCH request to unregister an event.(partial update to participants list.)
     """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
@@ -126,6 +127,7 @@ class EventRegistrationView(APIView):
         try:
             event.participants.remove(request.user)
         except ValueError:
-            return Response("You are not a participant.", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "You are not a participant.", status=status.HTTP_400_BAD_REQUEST
+            )
         return Response("You left this event.", status=status.HTTP_200_OK)
-
