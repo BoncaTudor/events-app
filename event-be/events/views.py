@@ -48,8 +48,8 @@ class LoginUserView(APIView):
         if serializer.is_valid():
             return Response(
                 {
-                    "email": serializer.validated_data[0],
-                    "token": serializer.validated_data[1],
+                    "email": serializer.validated_data.get("email"),
+                    "token": serializer.validated_data.get("token"),
                 },
                 status=status.HTTP_200_OK,
             )

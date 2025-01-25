@@ -31,3 +31,5 @@ class TestLoginView:
 
         response = client.post(url, data=register_payload)
         assert response.status_code == status.HTTP_201_CREATED
+        assert response.data["email"] == register_payload["email"]
+

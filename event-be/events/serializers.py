@@ -44,7 +44,7 @@ class LoginSerializer(serializers.Serializer):
             data={"username": username.username, "password": password}
         )
         if token_serializer.is_valid():
-            return email, token_serializer.validated_data
+            return {"email":email, "token":token_serializer.validated_data}
         raise serializers.ValidationError("invalid email or password")
 
 
