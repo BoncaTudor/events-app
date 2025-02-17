@@ -20,6 +20,7 @@ class RegisterUserView(APIView):
     serializer_class = UserSerializer
 
     def post(self, request):
+        print("hello ?")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -37,7 +38,7 @@ class RegisterUserView(APIView):
                 },
                 status=status.HTTP_201_CREATED,
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginUserView(APIView):
