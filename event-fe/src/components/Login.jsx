@@ -1,9 +1,11 @@
 import {useState} from "react";
 import axios from "axios";
 
-export default function Login(){
+export default function LoginButton(){
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,22 +23,24 @@ export default function Login(){
 
   return (
     <div className="login-form">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      {!localStorage.getItem("access_token") ? null : <p>Logged in</p> }
+
+          <form onSubmit={handleSubmit}>
+              <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+              <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Login</button>
+          </form>
+
     </div>
   );
 }
