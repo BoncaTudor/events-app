@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import CustomModal from './components/CustomModal.jsx';
-import RegisterUser from './components/Register';
+import SignUp from './components/SignUp.jsx';
 import ListEvents from './components/ListEvents.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
 import EventUpdate from './components/EventUpdate.jsx';
-import LoginButton from './components/Login.jsx';
+import SignIn from './components/SignIn.jsx';
 import { custom_button } from './components/tailwind_constants.js';
 
 function App() {
@@ -33,37 +33,42 @@ function Header() {
   };
 
   return (
-    <header className='border border-stone-50 bg-stone-100 text-center text-stone-700'>
-      <h1 className='text-5xl font-semibold hover:text-yellow-500'>
+    <header className='flex items-center justify-center border border-stone-50 bg-stone-100 px-4 text-center text-stone-700'>
+      <h1 className='mx-auto text-5xl font-semibold hover:text-yellow-500'>
         Event Tracker
       </h1>
-      <button className={custom_button} onClick={() => handleClick('login')}>
-        Login
-      </button>
-      {isOpen && modalType === 'login' && (
-        <CustomModal
-          isOpenModal={isOpen}
-          closeModal={closeModal}
-          modalName={'LoginModal'}
-          title={'Login'}
-        >
-          {<LoginButton />}
-        </CustomModal>
-      )}
+      <div className='ml-auto'>
+        <button className={custom_button} onClick={() => handleClick('signIn')}>
+          Sign In
+        </button>
+        {isOpen && modalType === 'signIn' && (
+          <CustomModal
+            isOpenModal={isOpen}
+            closeModal={closeModal}
+            modalName={'SignInModal'}
+            title={'Sign In to Event Tracker'}
+          >
+            {<SignIn />}
+          </CustomModal>
+        )}
 
-      <button className={custom_button} onClick={() => handleClick('register')}>
-        Register
-      </button>
-      {isOpen && modalType === 'register' && (
-        <CustomModal
-          isOpenModal={isOpen}
-          closeModal={closeModal}
-          modalName={'RegisterModal'}
-          title={'Register'}
+        <button
+          className={custom_button}
+          onClick={() => handleClick('sign up')}
         >
-          {<RegisterUser />}
-        </CustomModal>
-      )}
+          Sign Up
+        </button>
+        {isOpen && modalType === 'sign up' && (
+          <CustomModal
+            isOpenModal={isOpen}
+            closeModal={closeModal}
+            modalName={'SignUpModal'}
+            title={'Sign Up'}
+          >
+            {<SignUp />}
+          </CustomModal>
+        )}
+      </div>
     </header>
   );
 }

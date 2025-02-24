@@ -1,6 +1,4 @@
-import { useState } from "react";
-import Modal from "react-modal";
-import { custom_button } from "./tailwind_constants.js";
+import Modal from 'react-modal';
 export default function CustomModal({
   isOpenModal,
   closeModal,
@@ -9,20 +7,23 @@ export default function CustomModal({
   children,
 }) {
   return (
-    <div className="custom-modal">
-      <Modal
-        isOpen={isOpenModal}
-        onRequestClose={closeModal}
-        contentLabel={modalName}
-        ariaHideApp={false}
-      >
-        <h2>{title}</h2>
-        {console.log("wads")}
-        <div>{children}</div>
-        <button className={custom_button} onClick={closeModal}>
-          Close
+    <Modal
+      isOpen={isOpenModal}
+      contentLabel={modalName}
+      ariaHideApp={false}
+      className='relative mx-auto w-96 -translate-y-60 transform rounded-lg bg-stone-100 p-6 shadow-lg'
+      overlayClassName='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'
+    >
+      <div className='flex justify-center'>
+        <h2 className='pb-4'>{title ?? null}</h2>
+        <button
+          className='text-fuchsia absolute right-0 top-0 m-1 rounded-full border border-fuchsia-500 px-2 py-1 text-sm font-semibold hover:bg-teal-200'
+          onClick={closeModal}
+        >
+          X
         </button>
-      </Modal>
-    </div>
+      </div>
+      <div>{children}</div>
+    </Modal>
   );
 }
