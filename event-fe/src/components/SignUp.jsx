@@ -5,14 +5,19 @@ import { custom_button } from './tailwind_constants.js';
 export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newUser = { email, password };
+    const newUser = { email, password, firstName, lastName };
     console.log(newUser);
     await axios.post('http://127.0.0.1:8000/api/events/register/', newUser);
+
     setEmail('');
     setPassword('');
+    setFirstName('');
+    setLastName('');
   };
 
   return (
@@ -31,6 +36,22 @@ export default function SignUp() {
           type='text'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+          className='box-border w-full rounded border border-gray-300 p-1'
+        />
+        <label>First Name:</label>
+        <input
+          type='text'
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+          className='box-border w-full rounded border border-gray-300 p-1'
+        />
+        <label>Last Name:</label>
+        <input
+          type='text'
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
           required
           className='box-border w-full rounded border border-gray-300 p-1'
         />
