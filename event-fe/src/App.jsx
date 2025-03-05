@@ -21,12 +21,11 @@ export default App;
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
+
   const closeModal = () => {
     setIsOpen(false);
   };
-
-  const [modalType, setModalType] = useState(null);
-
   const handleClick = (type) => {
     setIsOpen(true);
     setModalType(type);
@@ -48,10 +47,9 @@ function Header() {
             modalName={'SignInModal'}
             title={'Sign In to Event Tracker'}
           >
-            {<SignIn />}
+            {<SignIn closeModal={closeModal} />}
           </CustomModal>
         )}
-
         <button
           className={custom_button}
           onClick={() => handleClick('sign up')}

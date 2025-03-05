@@ -15,8 +15,8 @@ export default function ListEvents() {
       });
   }, []);
   return (
-    <div>
-      <h3>Upcoming Events</h3>
+    <div className="flex flex-col items-center my-100">
+      <h2 className="text-center font-bold">Upcoming Events</h2>
       <ul>
         {events.map((event, index) => (
           <li key={index}>
