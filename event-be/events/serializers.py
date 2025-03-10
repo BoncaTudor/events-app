@@ -1,8 +1,7 @@
 import uuid
 
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from events.models import Event
+from events.models import Event, CustomUser
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.exceptions import NotFound
@@ -16,12 +15,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ["id", "firstName", "lastName", "email", "password"]
 
     def create(self, validated_data):
         username = uuid.uuid4().hex
-        return User.objects.create_user(
+        return CustomUser.objects.create_user(
             email=validated_data["email"],
             username=username,
             password=validated_data["password"],
@@ -38,7 +37,7 @@ class LoginSerializer(serializers.Serializer):
         email = data.get("email")
         password = data.get("password")
         
-        user = User.objects.filter(email=email)
+        user = CustomUser.objects.filter(email=email)
         if not user:
             raise NotFound("User Not Found")
         

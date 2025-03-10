@@ -63,7 +63,7 @@ function Header() {
             modalName={'SignUpModal'}
             title={'Sign Up'}
           >
-            {<SignUp />}
+            {<SignUp closeModal={closeModal} />}
           </CustomModal>
         )}
       </div>

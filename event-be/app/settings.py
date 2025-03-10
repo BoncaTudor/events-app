@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for app project.
 
@@ -148,7 +150,9 @@ DATABASES = {
         'NAME': 'eventdb',
         'USER': 'user',
         'PASSWORD': 'password',
-        'HOST': 'db',
+        'HOST': os.getenv('DJANGO_DB_HOST', 'localhost'),
         'PORT': '5432',
     }
 }
+
+AUTH_USER_MODEL = 'events.CustomUser'

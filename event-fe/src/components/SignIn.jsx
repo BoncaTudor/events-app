@@ -20,7 +20,7 @@ export default function SignIn({ closeModal }) {
       setError(200);
     } catch (err) {
       setError(err.response?.status);
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -48,21 +48,22 @@ export default function SignIn({ closeModal }) {
   );
 }
 
-function HandleLoginMessage({error, closeModal}) {
-
-  useEffect(()=> {
+function HandleLoginMessage({ error, closeModal }) {
+  useEffect(() => {
     if (error === 200) {
-      setTimeout(()=>{
-      closeModal()}, 1000)
+      setTimeout(() => {
+        closeModal();
+      }, 1000);
     }
-  }, [error, closeModal])
+  }, [error, closeModal]);
 
   if (error === 200) {
     return <p>Logged in! 😎</p>;
   } else if (error === 400) {
     return <p> Invalid Credentials 🥸</p>;
-  }
-  else if (error !== null){
+  } else if (error === 404) {
+    return <p> User not found 🥲</p>;
+  } else if (error !== null) {
     return <p> Error Occured 🤦‍♂️</p>;
   }
   return null;

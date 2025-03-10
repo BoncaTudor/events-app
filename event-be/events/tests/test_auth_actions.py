@@ -5,7 +5,7 @@ from rest_framework import status
 
 @pytest.mark.django_db
 class TestLoginView:
-    def test_login(self, client, user, payload):
+    def test_login(self, client, payload):
 
         url = reverse("login")
         response = client.post(url, data={"email": "testuser@gmail.com", "password": "password"})
@@ -19,14 +19,14 @@ class TestLoginView:
 
         assert create_response.status_code == status.HTTP_201_CREATED
 
-    def test_register(self, client, user):
+    def test_register(self, client):
         url = reverse("register")
 
         register_payload = {
-            "email": "testuser@gmail.com",
+            "email": "testuser1@gmail.com",
             "password": "password",
-            "first_name": "Test",
-            "last_name": "User",
+            "firstName": "Test",
+            "lastName": "User",
         }
 
         response = client.post(url, data=register_payload)
