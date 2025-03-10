@@ -1,29 +1,33 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
-export default function CreateEvent() {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+export default function CreateEvent({ handleEventUp }) {
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newEvent = { title, date, description };
 
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem('access_token');
 
     if (!token) {
-      console.log("Not logged in");
+      console.log('Not logged in');
       return;
     }
 
-    await axios.post("http://127.0.0.1:8000/api/events/create/", newEvent, {
+    await axios.post('http://127.0.0.1:8000/api/events/create/', newEvent, {
       headers: { Authorization: `Bearer ${token}` },
-    });
+    })
+    .then((response) => {
+      console.log('Event created', response);
+      handleEventUp();
+    })
 
-    setTitle("");
-    setDate("");
-    setDescription("");
+    setTitle('');
+    setDate('');
+    setDescription('');
   };
   return (
     <div>
@@ -32,7 +36,7 @@ export default function CreateEvent() {
         <div>
           <label>Event Title:</label>
           <input
-            type="text"
+            type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -42,7 +46,7 @@ export default function CreateEvent() {
         <div>
           <label>Description:</label>
           <input
-            type="text"
+            type='text'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
@@ -52,14 +56,16 @@ export default function CreateEvent() {
         <div>
           <label>Date:</label>
           <input
-            type="date"
+            type='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
             required
           />
         </div>
 
-        <button type="submit">Create Event</button>
+        <button type='submit'>
+          Create Event
+        </button>
       </form>
     </div>
   );

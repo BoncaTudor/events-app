@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function ListEvents() {
+export default function ListEvents( {eventUp}) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,8 @@ export default function ListEvents() {
       .catch((error) => {
         console.error("There was an error fetching the events!", error);
       });
-  }, []);
+  }, [eventUp]);
+  
   return (
     <div className="flex flex-col items-center my-100">
       <h2 className="text-center font-bold">Upcoming Events</h2>
