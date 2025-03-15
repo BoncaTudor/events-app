@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Event
 from .serializers import (
@@ -16,6 +17,11 @@ from .serializers import (
     LoginSerializer,
     UserSerializer,
 )
+
+class EventPagination(PageNumberPagination):
+    page_size = 5  # Numărul de evenimente per pagină
+    page_size_query_param = "page_size"  # Permite override cu `?page_size=10`
+    max_page_size = 20  # Limitează numărul maxim per pagină
 
 class RegisterUserView(APIView):
     serializer_class = UserSerializer
@@ -79,7 +85,7 @@ class EventListView(ListAPIView):
         .order_by("date")
     )
     serializer_class = EventSerializer
-
+    pagination_class = EventPagination
 
 class EventCreateView(CreateAPIView):
     queryset = Event.objects.all()

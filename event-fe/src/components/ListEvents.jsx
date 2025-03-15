@@ -1,28 +1,51 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-export default function ListEvents( {eventUp}) {
+export default function ListEvents({
+  eventUp,
+  page,
+  handleShowNextButton,
+  handleShowPreviousButton,
+}) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/events/")
+      .get(`http://127.0.0.1:8000/api/events/?page=${page}`)
       .then((response) => {
-        setEvents(response.data);
+        setEvents(response.data.results);
+        if (response.data.next === null) {
+          handleShowNextButton(false);
+        } else {
+          handleShowNextButton(true);
+        }
+        if (response.data.previous === null) {
+          handleShowPreviousButton(false);
+        } else {
+          handleShowPreviousButton(true);
+        }
       })
       .catch((error) => {
-        console.error("There was an error fetching the events!", error);
+        console.error('There was an error fetching the events!', error);
       });
-  }, [eventUp]);
-  
+  }, [page, eventUp]);
+
   return (
-    <div className="flex flex-col items-center my-100">
-      <h2 className="text-center font-bold">Upcoming Events</h2>
+    <div className='my-100 flex flex-col items-center'>
+      <h2 className='text-center font-bold'>Upcoming Events</h2>
       <ul>
         {events.map((event, index) => (
-          <li key={index}>
-            {event.title} {event.date} {event.description} <br />
-            participants {event.participant_count}
+          <li
+            className='m-2 w-64 rounded-lg border border-fuchsia-500 p-4'
+            key={index}
+          >
+            <div className='flex justify-between'>
+              <span className='font-bold'>{event.title}</span>
+              <span className='m-2 text-sm text-gray-500'>{event.date}</span>
+            </div>
+            <div className='mt-2 text-center text-sm'>
+              Participants: {event.participant_count}
+            </div>
           </li>
         ))}
       </ul>
