@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function ListEvents({ eventUp, page, handleShowNextButton, handleShowPreviousButton }) {
+export default function ListEvents({
+  eventUp,
+  page,
+  handleShowNextButton,
+  handleShowPreviousButton,
+}) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
