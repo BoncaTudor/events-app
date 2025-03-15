@@ -13,9 +13,7 @@ export default function ListEvents({
     axios
       .get(`http://127.0.0.1:8000/api/events/?page=${page}`)
       .then((response) => {
-        console.log('response', response);
         setEvents(response.data.results);
-        console.log('response.data.next', response.data.next);
         if (response.data.next === null) {
           handleShowNextButton(false);
         } else {
