@@ -1,11 +1,12 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
+import { custom_button } from './tailwind_constants';
 
-export default function EventUpdate() {
-  const [eventId, setEventId] = useState("");
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+export default function EventUpdate({ eventId }) {
+
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,10 +23,10 @@ export default function EventUpdate() {
     }
 
     const updateUrl = `http://127.0.0.1:8000/api/events/${eventId}/update/`;
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem('access_token');
 
     if (!token) {
-      console.log("Not logged in");
+      console.log('Not logged in');
       return;
     }
 
@@ -33,50 +34,44 @@ export default function EventUpdate() {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    setEventId("");
-    setTitle("");
-    setDate("");
-    setDescription("");
+    setTitle('');
+    setDate('');
+    setDescription('');
   };
 
   return (
-    <div>
-      <h3>EventUpdate</h3>
+    <div className='flex flex-col items-center rounded-full border border-fuchsia-500 px-12 py-8 shadow-lg'>
+      <h3 className='pb-6 font-bold'>Event Update</h3>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>event_id</label>
+        <div className='mb-4 flex items-center'>
+          <label className='mr-4 w-32 text-right'>Event Title </label>
           <input
-            type={"number"}
-            value={eventId}
-            onChange={(e) => setEventId(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Event Title:</label>
-          <input
-            type="text"
+            type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div>
-          <label>Description:</label>
+        <div className='mb-4 flex items-center'>
+          <label className='mr-4 w-32 text-right'>Description </label>
           <input
-            type="text"
+            type='text'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div>
-          <label>Date:</label>
+        <div className='mb-4 flex items-center'>
+          <label className='mr-4 w-32 text-right'>Date </label>
           <input
-            type="date"
+            type='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
-        <button type={"submit"}>EventUpdate</button>
+        <div className='flex justify-center'>
+          <button className={custom_button} type='submit'>
+            Update
+          </button>
+        </div>
       </form>
     </div>
   );

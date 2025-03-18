@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import ListEvents from './components/ListEvents.jsx';
 import CreateEvent from './components/CreateEvent.jsx';
-import EventUpdate from './components/EventUpdate.jsx';
 import Header from './components/Header.jsx';
 import { custom_button } from './components/tailwind_constants.js';
 
@@ -54,8 +53,6 @@ function App() {
         </button>
       </div>
       <CreateEvent handleEventUp={handleEventUp} />
-
-      <EventUpdate />
     </div>
   );
 }
