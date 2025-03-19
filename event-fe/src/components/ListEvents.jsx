@@ -11,14 +11,21 @@ export default function ListEvents({
 }) {
   const [events, setEvents] = useState([]);
   const [showEventUpdate, setShowEventUpdate] = useState(false);
-  const [index, setIndex] = useState();
+  const [eventToUpdate, setEventToUpdate] = useState();
 
+  const [wasUpdated, setWasUpdated] = useState(false);
 
-  function handleEventUpdate( index ) {
+  const handleWasUpdated = () => {
+    setWasUpdated((prevState) => !prevState);
+  };
+
+  function handleEventToUpdate(event) {
+    setEventToUpdate(event);
+    console.log("event id", event);
+  }
+
+  function handleEventUpdate() {
     setShowEventUpdate((prevState) => !prevState);
-    // setIndex(index);
-    console.log("BAAAAAAAAAAAAA")
-    console.log(index)
   }
 
   useEffect(() => {
@@ -26,6 +33,7 @@ export default function ListEvents({
       .get(`http://127.0.0.1:8000/api/events/?page=${page}`)
       .then((response) => {
         setEvents(response.data.results);
+        console.log('responseeeewee', response);
         if (response.data.next === null) {
           handleShowNextButton(false);
         } else {
@@ -40,16 +48,16 @@ export default function ListEvents({
       .catch((error) => {
         console.error('There was an error fetching the events!', error);
       });
-  }, [page, eventUp]);
+  }, [page, eventUp, wasUpdated]);
 
   return (
     <div className='my-100 flex flex-col items-center'>
-      <h2 className='text-center font-bold p-5 '>Upcoming Events</h2>
+      <h2 className='p-5 text-center font-bold'>Upcoming Events</h2>
       <ul>
-        {events.map((event, index) => (
+        {events.map((event) => (
           <li
             className='relative m-2 w-80 rounded-lg border border-fuchsia-500 p-5 shadow-lg'
-            key={index}
+            key={event.id}
           >
             <div className='flex justify-between'>
               <span className='font-bold'>{event.title}</span>
@@ -62,13 +70,14 @@ export default function ListEvents({
             <div className='group relative mt-2 text-center text-sm'>
               <p>Participants: {event.participant_count}</p>
               <button
-                className={`${custom_button} absolute bottom-[-5px] right-[-10px]`} onClick={handleEventUpdate}
+                className={`${custom_button} absolute bottom-[-5px] right-[-10px]`}
+                onClick={() => {
+                  handleEventUpdate(), handleEventToUpdate(event);
+                }}
               >
                 Edit
               </button>
-              <p
-                className='absolute bottom-10 right-0 hidden translate-x-1/2 bg-gray-200 p-1 opacity-50 group-hover:block'
-              >
+              <p className='absolute bottom-10 right-0 hidden translate-x-1/2 bg-gray-200 p-1 opacity-50 group-hover:block'>
                 Edit Event
               </p>
             </div>
@@ -76,9 +85,10 @@ export default function ListEvents({
         ))}
       </ul>
       {showEventUpdate && (
-        <div className=' absolute right-72 top-1/2 transform translate-x-1/2 -translate-y-1/2 px-7 py-10'>
-          <EventUpdate eventId={index} />
-        </div>)}
+        <div className='absolute right-72 top-1/2 -translate-y-1/2 translate-x-1/2 transform px-7 py-10'>
+          <EventUpdate eventToUpdate={eventToUpdate} handleWasUpdated={handleWasUpdated}/>
+        </div>
+      )}
     </div>
   );
 }

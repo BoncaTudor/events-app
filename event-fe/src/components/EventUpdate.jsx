@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { custom_button } from './tailwind_constants';
 
-export default function EventUpdate({ eventId }) {
+export default function EventUpdate({ eventToUpdate, handleWasUpdated}) {
 
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
+
+  const [wasUpdated, setWasUpdated] = useState(false);
+  const [newData, setNewData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,7 +25,7 @@ export default function EventUpdate({ eventId }) {
       updateEvent.description = description;
     }
 
-    const updateUrl = `http://127.0.0.1:8000/api/events/${eventId}/update/`;
+    const updateUrl = `http://127.0.0.1:8000/api/events/${eventToUpdate.id}/update/`;
     const token = localStorage.getItem('access_token');
 
     if (!token) {
@@ -30,9 +33,13 @@ export default function EventUpdate({ eventId }) {
       return;
     }
 
-    await axios.patch(updateUrl, updateEvent, {
+    const response = await axios.patch(updateUrl, updateEvent, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
+    handleWasUpdated();
+    setWasUpdated(true);
+    setNewData(response.data);
 
     setTitle('');
     setDate('');
@@ -41,6 +48,7 @@ export default function EventUpdate({ eventId }) {
 
   return (
     <div className='flex flex-col items-center rounded-full border border-fuchsia-500 px-12 py-8 shadow-lg'>
+      
       <h3 className='pb-6 font-bold'>Event Update</h3>
       <form onSubmit={handleSubmit}>
         <div className='mb-4 flex items-center'>
@@ -49,6 +57,7 @@ export default function EventUpdate({ eventId }) {
             type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            placeholder={wasUpdated ? newData.title : eventToUpdate.title}
           />
         </div>
         <div className='mb-4 flex items-center'>
@@ -57,6 +66,7 @@ export default function EventUpdate({ eventId }) {
             type='text'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder={wasUpdated ? newData.description : eventToUpdate.description}
           />
         </div>
         <div className='mb-4 flex items-center'>
